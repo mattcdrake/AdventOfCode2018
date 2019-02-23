@@ -15,6 +15,10 @@ namespace Advent2018CS
             Day day1 = new Day1();
             _solutions.Add(0, day1.Solution1);
             _solutions.Add(1, day1.Solution2);
+
+            Day day2 = new Day2();
+            _solutions.Add(2, day2.Solution1);
+            _solutions.Add(3, day2.Solution2);
         }
 
         // Iterates through the solution dictionary and prints day, puzzle, and solution to the console
@@ -23,10 +27,10 @@ namespace Advent2018CS
             Console.WriteLine("Solutions to Advent of Code 2018 Puzzles");
             Console.WriteLine("----------------------------------------");
 
-            for (int i = 0; i < _solutions.Count; i++)
+            for (var i = 0; i < _solutions.Count; i++)
             {
-                int day = (i / 2) + 1;
-                int puzzle = i % 2 == 0 ? 1 : 2;
+                var day = (i / 2) + 1;
+                var puzzle = i % 2 == 0 ? 1 : 2;
                 Console.WriteLine("Day " + day + ", Puzzle #" + puzzle + ": " + _solutions[i]);
             }
         }
