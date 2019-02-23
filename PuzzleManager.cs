@@ -19,6 +19,10 @@ namespace Advent2018CS
             Day day2 = new Day2();
             _solutions.Add(2, day2.Solution1);
             _solutions.Add(3, day2.Solution2);
+
+            Day day3 = new Day3();
+            _solutions.Add(4, day3.Solution1);
+            _solutions.Add(5, day3.Solution2);
         }
 
         // Iterates through the solution dictionary and prints day, puzzle, and solution to the console

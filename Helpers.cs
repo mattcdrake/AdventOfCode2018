@@ -51,6 +51,7 @@ namespace Advent2018CS
             return foundChars.ContainsValue(number);
         }
 
+        // TODO Add comment
         public static int StringDistance(string first, string second)
         {
             if (first.Length != second.Length)
@@ -70,6 +71,7 @@ namespace Advent2018CS
             return distance;
         }
 
+        // TODO Add comment
         public static string StripDifferent(string first, string second)
         {
             var output = "";
