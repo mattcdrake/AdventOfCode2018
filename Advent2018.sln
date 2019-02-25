@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent2018", "Advent2018.csproj", "{CB3C20E6-1E9C-4999-AFA1-4FE889F0D318}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CB3C20E6-1E9C-4999-AFA1-4FE889F0D318}.Debug|x86.ActiveCfg = Debug|x86
+		{CB3C20E6-1E9C-4999-AFA1-4FE889F0D318}.Debug|x86.Build.0 = Debug|x86
+		{CB3C20E6-1E9C-4999-AFA1-4FE889F0D318}.Release|x86.ActiveCfg = Release|x86
+		{CB3C20E6-1E9C-4999-AFA1-4FE889F0D318}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EF2E4BF1-F2DE-4C57-9462-A1CB88668933}
+	EndGlobalSection
+EndGlobal

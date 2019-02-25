@@ -48,7 +48,14 @@ namespace Advent2018CS
 
         protected override string Solve2()
         {
-            return "temp2";
+            foreach (var spec in _fabricSpecs)
+            {
+                if (IsUnclaimed(spec))
+                {
+                    return spec.Id.ToString();
+                }
+            }
+            return "Unable to find an unclaimed fabric spec.";
         }
 
         private void AddSpecToModel(FabricSpec spec)
@@ -60,6 +67,21 @@ namespace Advent2018CS
                     _fabricModel[i, j]++;
                 }
             }
+        }
+
+        private bool IsUnclaimed(FabricSpec spec)
+        {
+            for (var i = spec.LeftEdge; i < spec.Width + spec.LeftEdge; i++)
+            {
+                for (var j = spec.TopEdge; j < spec.Height + spec.TopEdge; j++)
+                {
+                    if (_fabricModel[i, j] > 1)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         private static FabricSpec ParseSpec(string input)
@@ -86,11 +108,11 @@ namespace Advent2018CS
 
             public FabricSpec(int id, int leftEdge, int topEdge, int width, int height)
             {
-                this.Id = id;
-                this.LeftEdge = leftEdge;
-                this.TopEdge = topEdge;
-                this.Width = width;
-                this.Height = height;
+                Id = id;
+                LeftEdge = leftEdge;
+                TopEdge = topEdge;
+                Width = width;
+                Height = height;
             }
         }
     }
