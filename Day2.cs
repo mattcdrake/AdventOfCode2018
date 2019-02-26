@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Advent2018CS
+namespace Advent2018
 {
     internal sealed class Day2 : Day
     {
