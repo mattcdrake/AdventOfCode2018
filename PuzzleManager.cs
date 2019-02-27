@@ -23,6 +23,10 @@ namespace Advent2018
             Day day3 = new Day3();
             _solutions.Add(4, day3.Solution1);
             _solutions.Add(5, day3.Solution2);
+
+            Day day4 = new Day4();
+            _solutions.Add(6, day4.Solution1);
+            _solutions.Add(7, day4.Solution2);
         }
 
         // Iterates through the solution dictionary and prints day, puzzle, and solution to the console
