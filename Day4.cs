@@ -8,55 +8,73 @@ namespace Advent2018
 {
     internal sealed class Day4 : Day
     {
-        private List<GuardLogDay> _GuardLogEntries;
+        private Dictionary<DateTime, GuardLogDay> _GuardLogEntries;
 
         public Day4()
         {
             InputLines = Helpers.ParseInputLines("input_data\\day4.txt");
-            _GuardLogEntries = new List<GuardLogDay>();
+            InputLines.Sort();
+            _GuardLogEntries = new Dictionary<DateTime, GuardLogDay>();
             Solution1 = Solve1();
             Solution2 = Solve2();
         }
 
         protected override string Solve1()
         {
-            // Creates a workingDay to avoid compiler error of uninitialized
-            // variable, even though the input data makes this a non-issue.
-            GuardLogDay workingDay = new GuardLogDay();
+            // First pass to create all the days
             foreach (var line in InputLines)
             {
                 string[] tokens = line.Split();
                 bool isGuardString = tokens[2] == "Guard" ? true : false;
 
-                string[] dateTokens = tokens[0].Split('-');
-                int day = int.Parse(dateTokens[2]);
-                int month = int.Parse(dateTokens[1]);
-                int year = int.Parse(dateTokens[0].Substring(1));
-
-                string[] timeTokens = tokens[1].Split(':');
-                int hour = int.Parse(timeTokens[0]);
-                int minute = int.Parse(timeTokens[1].Substring(0, timeTokens[1].Length - 1));
-
                 if (isGuardString)
                 {
-                    int guardId = int.Parse(tokens[3].Substring(1));
+                    string[] dateTokens = tokens[0].Split('-');
+                    int day = int.Parse(dateTokens[2]);
+                    int month = int.Parse(dateTokens[1]);
+                    int year = int.Parse(dateTokens[0].Substring(1));
 
-                    // TODO: Need to ensure that guard logs that start < midnight
-                    // are treated as the right day. Should probably use a datetime
-                    // library so that I can safely increment.
+                    string[] timeTokens = tokens[1].Split(':');
+                    int hour = int.Parse(timeTokens[0]);
 
-                    workingDay = new GuardLogDay(guardId, day, month, year);
-                    _GuardLogEntries.Add(workingDay);
-                }
-                else
-                {
-                    if (tokens[3] == "falls")
+                    DateTime date = new DateTime(year, month, day);
+
+                    if (isGuardString && hour > 0)
                     {
-                        workingDay.SetMinutesAsleep(minute);
+                        date = date.AddDays(1);
+                    }
+
+                    int guardId = int.Parse(tokens[3].Substring(1));
+                    GuardLogDay workingDay = new GuardLogDay(guardId, date);
+                    _GuardLogEntries[date] = workingDay;
+                }
+            }
+
+            // Second pass for the times
+            foreach (var line in InputLines)
+            {
+                string[] tokens = line.Split();
+                bool isGuardString = tokens[2] == "Guard" ? true : false;
+
+                if (!isGuardString)
+                {
+                    string[] dateTokens = tokens[0].Split('-');
+                    int day = int.Parse(dateTokens[2]);
+                    int month = int.Parse(dateTokens[1]);
+                    int year = int.Parse(dateTokens[0].Substring(1));
+
+                    string[] timeTokens = tokens[1].Split(':');
+                    int minute = int.Parse(timeTokens[1].Substring(0, timeTokens[1].Length - 1));
+
+                    DateTime date = new DateTime(year, month, day);
+
+                    if (tokens[2] == "falls")
+                    {
+                        _GuardLogEntries[date].SetMinutesAsleep(minute);
                     }
                     else
                     {
-                        workingDay.SetMinutesAwake(minute);
+                        _GuardLogEntries[date].SetMinutesAwake(minute);
                     }
                 }
             }
@@ -64,8 +82,6 @@ namespace Advent2018
             int sleepiestGuard = FindSleepiestGuard();
             int sleepiestMinute = FindSleepiestMinute(sleepiestGuard);
 
-            Console.WriteLine("Sleepiest guard: " + sleepiestGuard);
-            Console.WriteLine("Sleepiest minute: " + sleepiestMinute);
             return (sleepiestGuard * sleepiestMinute).ToString();
         }
 
@@ -82,7 +98,7 @@ namespace Advent2018
             }
             Dictionary<int, int> GuardSleepTracker = new Dictionary<int, int>();
 
-            foreach (var dayLog in _GuardLogEntries)
+            foreach (var dayLog in _GuardLogEntries.Values)
             {
                 if (GuardSleepTracker.ContainsKey(dayLog.GuardID))
                 {
@@ -108,11 +124,11 @@ namespace Advent2018
                 MinuteSleptTracker[i] = 0;
             }
 
-            foreach (var day in _GuardLogEntries)
+            foreach (var day in _GuardLogEntries.Values)
             {
                 if (day.GuardID == guardID)
                 {
-                    for (int i = 0; i < day.MinutesAsleep.Length; i++)
+                    for (int i = 0; i < 60; i++)
                     {
                         if (day.MinutesAsleep[i])
                         {
@@ -121,7 +137,7 @@ namespace Advent2018
                     }
                 }
             }
-            
+
             return MinuteSleptTracker.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
         }
     }

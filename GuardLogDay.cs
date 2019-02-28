@@ -8,24 +8,18 @@ namespace Advent2018
     class GuardLogDay
     {
         public int GuardID { get; private set; }
-        public int Day { get; private set; } 
-        public int Month { get; private set; }
-        public int Year { get; private set; }
-        public int MinutesAsleepCount { get; private set; }
+        public DateTime Date { get; private set; }
         public bool[] MinutesAsleep { get; private set; }
 
         public GuardLogDay()
         {
         }
 
-        public GuardLogDay(int guardID, int day, int month, int year)
+        public GuardLogDay(int guardID, DateTime date)
         {
             MinutesAsleep = new bool[60];
-            MinutesAsleepCount = 0;
             GuardID = guardID;
-            Day = day;
-            Month = month;
-            Year = year;
+            Date = date;
         }
         
         // Minutes are 0 indexed. Uses a naive algo with a lot of extra work.
@@ -36,7 +30,6 @@ namespace Advent2018
             for (int i = startMin; i < 60; i++)
             {
                 MinutesAsleep[i] = true;
-                MinutesAsleepCount++;
             }
         }
 
@@ -45,17 +38,22 @@ namespace Advent2018
         {
             for (int i = startMin; i < 60; i++)
             {
-                if (MinutesAsleep[i])
-                {
-                    MinutesAsleepCount--;
-                }
                 MinutesAsleep[i] = false;
             }
         }
 
         public int GetMinutesAsleep()
         {
-            return MinutesAsleepCount;
+            int sleepCount = 0;
+
+            foreach (var min in MinutesAsleep)
+            {
+                if (min)
+                {
+                    sleepCount++;
+                }
+            }
+            return sleepCount;
         }
     }
 }
