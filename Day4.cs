@@ -21,53 +21,38 @@ namespace Advent2018
 
         protected override string Solve1()
         {
+            // Avoids compiler error about uninitialized GuardLogDay
+            GuardLogDay workingDay = new GuardLogDay();
+
             // First pass to create all the days
             foreach (var line in InputLines)
             {
                 string[] tokens = line.Split();
                 bool isGuardString = tokens[2] == "Guard" ? true : false;
 
+                string[] dateTokens = tokens[0].Split('-');
+                int day = int.Parse(dateTokens[2]);
+                int month = int.Parse(dateTokens[1]);
+                int year = int.Parse(dateTokens[0].Substring(1));
+
+                string[] timeTokens = tokens[1].Split(':');
+                int hour = int.Parse(timeTokens[0]);
+                int minute = int.Parse(timeTokens[1].Substring(0, timeTokens[1].Length - 1));
+
+                DateTime date = new DateTime(year, month, day);
+
                 if (isGuardString)
                 {
-                    string[] dateTokens = tokens[0].Split('-');
-                    int day = int.Parse(dateTokens[2]);
-                    int month = int.Parse(dateTokens[1]);
-                    int year = int.Parse(dateTokens[0].Substring(1));
-
-                    string[] timeTokens = tokens[1].Split(':');
-                    int hour = int.Parse(timeTokens[0]);
-
-                    DateTime date = new DateTime(year, month, day);
-
-                    if (isGuardString && hour > 0)
+                    if (hour > 0)
                     {
                         date = date.AddDays(1);
                     }
-
                     int guardId = int.Parse(tokens[3].Substring(1));
-                    GuardLogDay workingDay = new GuardLogDay(guardId, date);
+                    workingDay = new GuardLogDay(guardId, date);
                     _GuardLogEntries[date] = workingDay;
                 }
-            }
-
-            // Second pass for the times
-            foreach (var line in InputLines)
-            {
-                string[] tokens = line.Split();
-                bool isGuardString = tokens[2] == "Guard" ? true : false;
-
-                if (!isGuardString)
+                else
                 {
-                    string[] dateTokens = tokens[0].Split('-');
-                    int day = int.Parse(dateTokens[2]);
-                    int month = int.Parse(dateTokens[1]);
-                    int year = int.Parse(dateTokens[0].Substring(1));
-
-                    string[] timeTokens = tokens[1].Split(':');
-                    int minute = int.Parse(timeTokens[1].Substring(0, timeTokens[1].Length - 1));
-
-                    DateTime date = new DateTime(year, month, day);
-
                     if (tokens[2] == "falls")
                     {
                         _GuardLogEntries[date].SetMinutesAsleep(minute);
