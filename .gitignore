@@ -1,4 +1,12 @@
+AdventOfCode2018Tests/bin/*
+AdventOfCode2018Tests/obj/*
+AdventOfCode2018Tests/Properties/*
+AdventOfCode2018Tests/*.csproj
+AdventOfCode2018Tests/*.config
 bin/*
 obj/*
+packages/*
 .vs/*
 *.csproj
+*.sln
+*.user

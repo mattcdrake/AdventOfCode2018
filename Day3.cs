@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace Advent2018
+namespace AdventOfCode2018
 {
     internal sealed class Day3 : Day
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Advent2018
+namespace AdventOfCode2018
 {
     abstract class Day
     {

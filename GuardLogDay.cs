@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Advent2018
+namespace AdventOfCode2018
 {
     class GuardLogDay
     {

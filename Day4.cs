@@ -1,10 +1,11 @@
-﻿using Advent2018;
+﻿using AdventOfCode2018;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 
-namespace Advent2018
+namespace AdventOfCode2018
 {
     internal sealed class Day4 : Day
     {
@@ -72,32 +73,78 @@ namespace Advent2018
 
         protected override string Solve2()
         {
-            return "temp2";
+            // Maps guard id to a dictionary which contains counts of how often that guard was asleep
+            // on that specific minute.
+            Dictionary<int, Dictionary<int, int>> guardToMinCounts = new Dictionary<int, Dictionary<int, int>>();
+
+            foreach (var log in _GuardLogEntries)
+            {
+                var guardId = log.Value.GuardID;
+                var minuteArray = log.Value.MinutesAsleep;
+
+                for (var i = 0; i < minuteArray.Length; ++i)
+                {
+                    if (!minuteArray[i]) continue;
+
+                    if (!guardToMinCounts.ContainsKey(guardId))
+                    {
+                        guardToMinCounts[guardId] = new Dictionary<int, int>();
+                    }
+
+                    if (guardToMinCounts[guardId].ContainsKey(i))
+                    {
+                        guardToMinCounts[guardId][i]++;
+                    }
+                    else
+                    {
+                        guardToMinCounts[guardId][i] = 1;
+                    }
+                }
+            }
+
+            int sleepyGuard = 0;
+            int sleepiestMinute = 0;
+            int highestSleepyMinuteCount = 0;
+
+            foreach (var guardDict in guardToMinCounts)
+            {
+                var sleepyMinute = guardDict.Value.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+                if (guardDict.Value[sleepyMinute] > highestSleepyMinuteCount)
+                {
+                    sleepyGuard = guardDict.Key;
+                    sleepiestMinute = sleepyMinute;
+                    highestSleepyMinuteCount = guardDict.Value[sleepyMinute];
+                }
+            }
+
+            return (sleepyGuard * sleepiestMinute).ToString();
         }
 
+        // Returns ID of the guard who was most often asleep (total cumulative minutes)
         private int FindSleepiestGuard()
         {
             if (_GuardLogEntries.Count == 0)
             {
                 return 0;
             }
-            Dictionary<int, int> GuardSleepTracker = new Dictionary<int, int>();
+            Dictionary<int, int> guardSleepTracker = new Dictionary<int, int>();
 
             foreach (var dayLog in _GuardLogEntries.Values)
             {
-                if (GuardSleepTracker.ContainsKey(dayLog.GuardID))
+                if (guardSleepTracker.ContainsKey(dayLog.GuardID))
                 {
-                    GuardSleepTracker[dayLog.GuardID] += dayLog.GetMinutesAsleep();
+                    guardSleepTracker[dayLog.GuardID] += dayLog.GetMinutesAsleep();
                 }
                 else
                 {
-                    GuardSleepTracker[dayLog.GuardID] = dayLog.GetMinutesAsleep();
+                    guardSleepTracker[dayLog.GuardID] = dayLog.GetMinutesAsleep();
                 }
             }
 
-            return GuardSleepTracker.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+            return guardSleepTracker.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
         }
 
+        // Returns the minute during which a particular guard was most often asleep
         private int FindSleepiestMinute(int guardID)
         {
             Dictionary<int, int> MinuteSleptTracker = new Dictionary<int, int>();
