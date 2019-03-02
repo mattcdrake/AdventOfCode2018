@@ -22,9 +22,6 @@ namespace AdventOfCode2018
 
         protected override string Solve1()
         {
-            // Avoids compiler error about uninitialized GuardLogDay
-            GuardLogDay workingDay = new GuardLogDay();
-
             // First pass to create all the days
             foreach (var line in InputLines)
             {
@@ -49,7 +46,7 @@ namespace AdventOfCode2018
                         date = date.AddDays(1);
                     }
                     int guardId = int.Parse(tokens[3].Substring(1));
-                    workingDay = new GuardLogDay(guardId, date);
+                    GuardLogDay workingDay = new GuardLogDay(guardId, date);
                     _GuardLogEntries[date] = workingDay;
                 }
                 else

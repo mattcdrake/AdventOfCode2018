@@ -27,6 +27,10 @@ namespace AdventOfCode2018
             Day day4 = new Day4();
             Solutions.Add(6, day4.Solution1);
             Solutions.Add(7, day4.Solution2);
+
+            Day day5 = new Day5();
+            Solutions.Add(8, day5.Solution1);
+            Solutions.Add(9, day5.Solution2);
         }
 
         // Iterates through the solution dictionary and prints day, puzzle, and solution to the console

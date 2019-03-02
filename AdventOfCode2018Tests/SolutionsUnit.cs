@@ -61,5 +61,17 @@ namespace AoC18Tests
         {
             Assert.AreEqual("23776", puzzleManager.Solutions[7]);
         }
+
+        [TestMethod]
+        public void TestD5P1()
+        {
+            Assert.AreEqual("11476", puzzleManager.Solutions[8]);
+        }
+
+        [TestMethod]
+        public void TestD5P2()
+        {
+            Assert.AreEqual("5446", puzzleManager.Solutions[9]);
+        }
     }
 }
